@@ -4,10 +4,18 @@
     <label>Add Task</label>
     <div class="newTaskContainer">
       <input class="inputTextField" @keyup.enter="submitTask" type="text" />
-      <button @click="submitTask">+</button>
+      <button class="add" @click="submitTask">+</button>
     </div>
+
+    <div class="buttonContainer">
+      <button class="taskButton" @click="currentWindow ='Pending'">Pending Tasks</button>
+      <button class="taskButton" @click="currentWindow ='Completed'">Completed Tasks</button>
+    </div>
+
     <div class="listContainer">
+      
       <TaskList
+      v-if="currentWindow==='Pending'"
         :isChecked="false"
         heading="Pending Tasks"
         :listItems="pendingTasks"
@@ -15,6 +23,7 @@
         @delete="taskDelete($event)"
       />
       <TaskList
+      v-if="currentWindow==='Completed'"
         heading="Completed Tasks"
         :isChecked="true"
         :listItems="completedTasks"
@@ -33,6 +42,7 @@ export default {
 
   data() {
     return {
+      currentWindow: "Pending",
       pendingTasks: [],
       completedTasks: [],
     };
@@ -41,16 +51,19 @@ export default {
     submitTask() {
       const textInput = this.$el.querySelector(".inputTextField");
       if(textInput.value){
-      this.pendingTasks.push(textInput.value);
+      this.pendingTasks.push([textInput.value, false]);
       textInput.value = "";
       }
     },
+
+
     taskDone(item) {
-      this.completedTasks.push(item);
+      this.completedTasks.push([item[0],true]);
       this.pendingTasks.splice(this.pendingTasks.indexOf(item), 1);
+      
     },
     taskPending(item) {
-      this.pendingTasks.push(item);
+      this.pendingTasks.push([item[0], false]);
       this.completedTasks.splice(this.completedTasks.indexOf(item), 1);
     },
     taskDelete(item) {
@@ -75,7 +88,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  margin-top: 60px;
+  margin-top: 40px;
 }
 </style>
 
@@ -96,7 +109,7 @@ label {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px;
+  margin: 10px;
   height: 50px;
 }
 .inputTextField {
@@ -111,7 +124,7 @@ label {
   height: 100%;
 }
 
-button {
+.add {
   border-radius: 4px;
   border: 1px solid #ffffff;
   color: white;
@@ -120,5 +133,22 @@ button {
   cursor: pointer;
   background-color: #25262a;
   height: 109%;
+}
+.taskButton{
+  border-radius: 4px;
+  border: 1px solid #ffffff;
+  color: white;
+  font-size: larger;
+  width: 150px;
+  cursor: pointer;
+  height: 50px;
+  margin: 10px;
+  background-color: #25262a;
+}
+.buttonContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
 }
 </style>

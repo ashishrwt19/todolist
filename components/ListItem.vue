@@ -1,9 +1,9 @@
 <template>
   <div>
     <label class="task" @change="$emit('clicked', task)">
-      <input type="checkbox" :checked="isChecked" />
+      <input id="checkbox" type="checkbox" :checked= "task[1]"/>
       <span class="checkmark"></span>
-      <span>{{ task }}</span>
+      <span>{{ task[0] }}</span>
 
       <button @click="$emit('delete', task)">-</button>
     </label>
@@ -16,11 +16,17 @@ export default {
   created() {
     console.log(typeof this.isChecked);
   },
-  props: { task: String,
-  isChecked:{ 
-    type:Boolean,
-    default:false  
-    } },
+  props: {
+    task: Array,
+    isChecked: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  updated() {
+    const checkbox = this.$el.querySelectorAll("#checkbox")[0];
+    checkbox.checked = this.isChecked;
+  },
 };
 </script>
 
@@ -50,7 +56,6 @@ button {
   margin-left: auto;
 }
 
-/* Hide the browser's default checkbox */
 .task input {
   position: absolute;
   opacity: 0;
@@ -59,7 +64,6 @@ button {
   width: 0;
 }
 
-/* Create a custom checkbox */
 .checkmark {
   position: absolute;
   top: 50%;
@@ -71,29 +75,24 @@ button {
   background-color: #25262a;
 }
 
-/* On mouse-over, add a grey background color */
 .task:hover input ~ .checkmark {
   background-color: #35363b;
 }
 
-/* When the checkbox is checked, add a blue background */
 .task input:checked ~ .checkmark {
   background-color: #25262a;
 }
 
-/* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
   content: "";
   position: absolute;
   display: none;
 }
 
-/* Show the checkmark when checked */
 .task input:checked ~ .checkmark:after {
   display: block;
 }
 
-/* Style the checkmark/indicator */
 .task .checkmark:after {
   left: 9px;
   top: 5px;
