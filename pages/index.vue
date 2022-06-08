@@ -1,10 +1,10 @@
 <template>
-  <div class="mainContainer">
+  <div class="mainContainer" >
+    <TaskAdd @closeModal="addModal($event)" v-if="addTask == 1" @createTask="submitTask($event)" />
     <div><h1>TO-DO LIST</h1></div>
-    <label>Add Task</label>
     <div class="newTaskContainer">
-      <input class="inputTextField" @keyup.enter="submitTask" type="text" />
-      <button class="add" @click="submitTask">+</button>
+      <label>Add Task  </label>
+      <button class="add" @click="(addTask = 1)">+</button>
     </div>
 
     <div class="buttonContainer">
@@ -36,13 +36,14 @@
 </template>
 
 <script>
-import TaskConfig from "~/components/TaskConfig.vue";
 import TaskList from "~/components/TaskList.vue";
+import TaskAdd from "../components/TaskAdd.vue";
 export default {
   name: "IndexPage",
 
   data() {
     return {
+      addTask: 0,
       currentWindow: "Pending",
       pendingTasks: [],
       completedTasks: [],
@@ -67,12 +68,12 @@ export default {
     }
   },
   methods: {
-    submitTask() {
-      const textInput = this.$el.querySelector(".inputTextField");
-      if (textInput.value) {
-        this.pendingTasks.push([textInput.value, false]);
-        textInput.value = "";
-      }
+    addModal(item) {
+      this.addTask = item;
+    },
+    submitTask(task) {
+        this.pendingTasks.push([task.taskTitle, false]);
+        
     },
     taskDone(item) {
       this.completedTasks.push([item[0], true]);
@@ -92,15 +93,15 @@ export default {
   },
 
   components: {
-    TaskConfig,
     TaskList,
+    TaskAdd,
   },
 };
 </script>
 <style>
 body {
-  background-color: #373057;
-  background-image: linear-gradient(to bottom , #1e1f25, #231d3f);
+  height: 100vh;
+  background-image: linear-gradient(to bottom, #1e1f25, #231d3f);
   font-family: "Poppins", sans-serif;
   text-align: center;
   margin-top: 30px;
@@ -139,7 +140,8 @@ label {
 }
 
 .add {
-  border-radius: 0 4px 4px 0;
+  margin-left: 20px;
+  border-radius: 50%;
   border: none;
   color: white;
   font-size: larger;
