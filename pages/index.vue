@@ -71,8 +71,9 @@ export default {
     addModal(item) {
       this.addTask = item;
     },
-    submitTask(task) {
-        this.pendingTasks.push([task.taskTitle, false]);
+    submitTask(form) {
+        this.pendingTasks.push([form.taskTitle, false]);
+        this.addTask = 0
         
     },
     taskDone(item) {

@@ -41,7 +41,7 @@ export default {
 }
 h2{
   color: #7c47ea;
-  font-weight:bolder ;
+  font-weight: 800 ;
 
 }
 </style>

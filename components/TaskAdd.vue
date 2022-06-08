@@ -42,7 +42,7 @@
       <div>
         <button
           class="createTask"
-          @click="$emit('createTask', form), (close = 0)"
+          @click="$emit('createTask', form )"
         >
           CREATE TASK
         </button>
