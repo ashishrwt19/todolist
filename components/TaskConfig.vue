@@ -2,10 +2,6 @@
   <div class="container">
     <input class="inputTextField" type="text" />
     <button>+</button>
-
-    <!-- <div v-for="(item,i) in arrays" :key="i">
-      {{item[0]}} <span style="font-size: xx-large;"> {{item[1]}}</span>
-    </div> -->
   </div>
 </template>
 
@@ -21,18 +17,9 @@ export default {
     addTask() {},
   },
   data() {
-    return {
-        // classes: ["Class-I", "Class-II", "Class-III"],
-        // arrays: [],
-    };
+    return {};
   },
-    created() {
-
-    //   for(var i =0; i < this.classes.length; i++) {
-    //       console.log(i)
-    //       this.arrays.push(this.classes[i].split("-"));
-    //   };
-    },
+  created() {},
 };
 </script>
 
@@ -45,21 +32,19 @@ export default {
   height: 50px;
 }
 .inputTextField {
+  background-color: #303545;
   padding: 0 10px;
   font-size: larger;
   margin: 10px;
   min-width: 400px;
-  border: 1px solid #ccc;
   height: 100%;
 }
-
 
 button {
   border: none;
   font-size: larger;
   width: 40px;
   cursor: pointer;
-  background-color: #ccc;
   height: 100%;
 }
 </style>

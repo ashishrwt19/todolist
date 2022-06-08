@@ -8,27 +8,28 @@
     </div>
 
     <div class="buttonContainer">
-      <button class="taskButton" @click="currentWindow ='Pending'">Pending Tasks</button>
-      <button class="taskButton" @click="currentWindow ='Completed'">Completed Tasks</button>
+      <button class="pendingTaskButton" @click="currentWindow = 'Pending'">
+        Pending Tasks
+      </button>
+      <button class="completedTaskButton" @click="currentWindow = 'Completed'">
+        Completed Tasks
+      </button>
     </div>
 
     <div class="listContainer">
-      
       <TaskList
-      v-if="currentWindow==='Pending'"
+        v-if="currentWindow === 'Pending'"
         :isChecked="false"
         heading="Pending Tasks"
         :listItems="pendingTasks"
         @clicked="taskDone($event)"
-        @delete="taskDelete($event)"
       />
       <TaskList
-      v-if="currentWindow==='Completed'"
+        v-if="currentWindow === 'Completed'"
         heading="Completed Tasks"
         :isChecked="true"
         :listItems="completedTasks"
         @clicked="taskPending($event)"
-        @delete="taskDelete($event)"
       />
     </div>
   </div>
@@ -47,32 +48,47 @@ export default {
       completedTasks: [],
     };
   },
+  updated() {
+    if (this.currentWindow === "Completed") {
+      this.$el.querySelectorAll(
+        ".completedTaskButton"
+      )[0].style.backgroundImage =
+        "linear-gradient(to right, #792dd9, #ad32f9)";
+      this.$el.querySelectorAll(".pendingTaskButton")[0].style.backgroundImage =
+        "linear-gradient(to right bottom, #373942, #5b5a5e)";
+    }
+    if (this.currentWindow === "Pending") {
+      this.$el.querySelectorAll(".pendingTaskButton")[0].style.backgroundImage =
+        "linear-gradient(to right, #792dd9, #ad32f9)";
+      this.$el.querySelectorAll(
+        ".completedTaskButton"
+      )[0].style.backgroundImage =
+        "linear-gradient(to right bottom, #373942, #5b5a5e)";
+    }
+  },
   methods: {
     submitTask() {
       const textInput = this.$el.querySelector(".inputTextField");
-      if(textInput.value){
-      this.pendingTasks.push([textInput.value, false]);
-      textInput.value = "";
+      if (textInput.value) {
+        this.pendingTasks.push([textInput.value, false]);
+        textInput.value = "";
       }
     },
-
-
     taskDone(item) {
-      this.completedTasks.push([item[0],true]);
+      this.completedTasks.push([item[0], true]);
       this.pendingTasks.splice(this.pendingTasks.indexOf(item), 1);
-      
     },
     taskPending(item) {
       this.pendingTasks.push([item[0], false]);
       this.completedTasks.splice(this.completedTasks.indexOf(item), 1);
     },
-    taskDelete(item) {
-      if (this.completedTasks.includes(item)) {
-        this.completedTasks.splice(this.completedTasks.indexOf(item), 1);
-      } else if (this.pendingTasks.includes(item)) {
-        this.pendingTasks.splice(this.pendingTasks.indexOf(item), 1);
-      }
-    },
+    // taskDelete(item) {
+    //   if (this.completedTasks.includes(item)) {
+    //     this.completedTasks.splice(this.completedTasks.indexOf(item), 1);
+    //   } else if (this.pendingTasks.includes(item)) {
+    //     this.pendingTasks.splice(this.pendingTasks.indexOf(item), 1);
+    //   }
+    // },
   },
 
   components: {
@@ -83,19 +99,17 @@ export default {
 </script>
 <style>
 body {
-  background-color: #25262a;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: #373057;
+  background-image: linear-gradient(to bottom , #1e1f25, #231d3f);
+  font-family: "Poppins", sans-serif;
   text-align: center;
-  margin-top: 40px;
+  margin-top: 30px;
 }
 </style>
 
 <style scoped>
 .mainContainer {
   color: white;
-  font-family: Helvetica;
   text-align: center;
 }
 label {
@@ -113,42 +127,61 @@ label {
   height: 50px;
 }
 .inputTextField {
-  border-radius: 4px;
+  border-radius: 4px 0 0 4px;
   padding: 0 10px;
-  background-color: #25262a;
+  background-color: #303545;
   color: white;
   font-size: larger;
   margin: 10px 0;
   min-width: 400px;
-  border: 1px solid #ccc;
+  border: none;
   height: 100%;
 }
 
 .add {
-  border-radius: 4px;
-  border: 1px solid #ffffff;
+  border-radius: 0 4px 4px 0;
+  border: none;
   color: white;
   font-size: larger;
   width: 50px;
   cursor: pointer;
-  background-color: #25262a;
-  height: 109%;
+  background-image: linear-gradient(to right, #792dd9, #ad32f9);
+  height: 100%;
 }
-.taskButton{
+.completedTaskButton {
   border-radius: 4px;
-  border: 1px solid #ffffff;
+  border: none;
+  color: white;
+  font-size: larger;
+  width: 150px;
+  background-image: linear-gradient(to right bottom, #373942, #5b5a5e);
+  cursor: pointer;
+  height: 50px;
+  margin: 10px;
+  background-color: #25262a;
+}
+.pendingTaskButton {
+  border-radius: 4px;
+  border: none;
+  background-image: linear-gradient(to right, #792dd9, #ad32f9);
   color: white;
   font-size: larger;
   width: 150px;
   cursor: pointer;
   height: 50px;
   margin: 10px;
-  background-color: #25262a;
+  /* background-color: #25262a; */
 }
-.buttonContainer{
+
+.completedTaskButton:focus {
+  background-image: linear-gradient(to right, #792dd9, #ad32f9);
+}
+.pendingTaskButton:focus {
+  background-image: linear-gradient(to right, #792dd9, #ad32f9);
+}
+.buttonContainer {
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
 </style>

@@ -1,11 +1,10 @@
 <template>
-  <div>
+  <div class="itemContainer">
     <label class="task" @change="$emit('clicked', task)">
-      <input id="checkbox" type="checkbox" :checked= "task[1]"/>
+      <input id="checkbox" type="checkbox" :checked="task[1]" />
       <span class="checkmark"></span>
-      <span>{{ task[0] }}</span>
-
-      <button @click="$emit('delete', task)">-</button>
+      <span class="taskText">{{ task[0] }}</span>
+      <!-- <button @click="$emit('delete', task)">-</button> -->
     </label>
   </div>
 </template>
@@ -34,16 +33,20 @@ export default {
 .task {
   position: relative;
   align-items: center;
-  padding-left: 35px;
-  margin: 10px;
-  border-radius: 4px;
-  border: 1px solid #ffffff;
+  border-radius: 10px;
   padding: 30px 35px;
   display: flex;
   justify-content: left;
 }
-span {
-  margin: 0 10px;
+.taskText {
+  width: 100% ;
+  background-color: #303545;
+  align-items: center;
+  border-radius: 10px;
+  padding: 20px 35px;
+  display: flex;
+  justify-content: left;
+  margin-left: 50px ;
   font-size: 18px;
 }
 button {
@@ -65,22 +68,23 @@ button {
 }
 
 .checkmark {
+  border-radius: 5px;
   position: absolute;
   top: 50%;
   transform: translate(0, -50%);
-  left: 0;
+  left: 30px;
   height: 25px;
   width: 25px;
-  border: 1px solid white;
-  background-color: #25262a;
+  border: 2px solid #3d3d53;
+  background-color: transparent;
 }
 
 .task:hover input ~ .checkmark {
-  background-color: #35363b;
+  background-color: #3d3d53;
 }
 
 .task input:checked ~ .checkmark {
-  background-color: #25262a;
+  background-color: #66ffa7;
 }
 
 .checkmark:after {
@@ -98,7 +102,7 @@ button {
   top: 5px;
   width: 5px;
   height: 10px;
-  border: solid white;
+  border: solid #0d4e2d;
   border-width: 0 3px 3px 0;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
