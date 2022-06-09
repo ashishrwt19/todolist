@@ -72,9 +72,8 @@ export default {
       this.addTask = item;
     },
     submitTask(form) {
-        this.pendingTasks.push([form.taskTitle, false]);
+        this.pendingTasks.push([form, false]);
         this.addTask = 0
-        
     },
     taskDone(item) {
       this.completedTasks.push([item[0], true]);
@@ -102,10 +101,10 @@ export default {
 <style>
 body {
   height: 100vh;
-  background-image: linear-gradient(to bottom, #1e1f25, #231d3f);
+  background-image: linear-gradient(to bottom right, #322b51, #272931);
   font-family: "Poppins", sans-serif;
   text-align: center;
-  margin-top: 30px;
+  padding: 30px;
 }
 </style>
 

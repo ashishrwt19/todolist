@@ -34,13 +34,13 @@ export default {
 <style scoped>
 .container {
   border-radius: 10px ;
-  background-image: linear-gradient(to bottom right, #332a5d, #292b33);
+  background-image: linear-gradient(to bottom right, #7f2edd, #a431f3);
   width: 500px;
   height: 500px;
   overflow: auto;
 }
 h2{
-  color: #7c47ea;
+  color: #221e39;
   font-weight: 800 ;
 
 }

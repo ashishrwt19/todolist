@@ -3,7 +3,18 @@
     <label class="task" @change="$emit('clicked', task)">
       <input id="checkbox" type="checkbox" :checked="task[1]" />
       <span class="checkmark"></span>
-      <span class="taskText">{{ task[0] }}</span>
+      <span class="taskText">
+        <i
+          :class="'bi bi-' + task[0].taskCategoryIcon"
+          style="margin-right: 10px"
+        ></i>
+        <span>
+          {{ task[0].taskTitle }}
+        </span>
+        <span style="margin-left: auto; color: #d95c5d;">
+        {{task[0].taskType}}
+        </span>
+      </span>
       <!-- <button @click="$emit('delete', task)">-</button> -->
     </label>
   </div>
@@ -39,14 +50,14 @@ export default {
   justify-content: left;
 }
 .taskText {
-  width: 100% ;
+  width: 100%;
   background-color: #303545;
   align-items: center;
   border-radius: 10px;
-  padding: 20px 35px;
+  padding: 20px 20px;
   display: flex;
   justify-content: left;
-  margin-left: 50px ;
+  margin-left: 50px;
   font-size: 18px;
 }
 button {
