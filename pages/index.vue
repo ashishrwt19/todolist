@@ -1,10 +1,14 @@
 <template>
-  <div class="mainContainer" >
-    <TaskAdd @closeModal="addModal($event)" v-if="addTask == 1" @createTask="submitTask($event)" />
+  <div class="mainContainer">
+    <TaskAdd
+      @closeModal="closeModal($event)"
+      v-if="addTask == 1"
+      @createTask="submitTask($event)"
+    />
     <div><h1>TO-DO LIST</h1></div>
     <div class="newTaskContainer">
-      <label>Add Task  </label>
-      <button class="add" @click="(addTask = 1)">+</button>
+      <label>Add Task </label>
+      <button class="add" @click="addTask = 1">+</button>
     </div>
 
     <div class="buttonContainer">
@@ -68,28 +72,34 @@ export default {
     }
   },
   methods: {
-    addModal(item) {
+    closeModal(item) {
       this.addTask = item;
     },
     submitTask(form) {
-        this.pendingTasks.push([form, false]);
-        this.addTask = 0
+      console.log(form.time)
+      if (form.taskTitle != "" && form.time != "Select Time") {
+        this.pendingTasks.push(form);
+        this.pendingTasks.sort((a, b) => (a.time > b.time ? 1 : -1));
+        this.addTask = 0;
+      }
+      else{
+        alert("Fill all the details")
+      }
     },
+
     taskDone(item) {
-      this.completedTasks.push([item[0], true]);
+      this.completedTasks.push(item);
       this.pendingTasks.splice(this.pendingTasks.indexOf(item), 1);
     },
     taskPending(item) {
-      this.pendingTasks.push([item[0], false]);
+      if (item.taskType == "P") {
+        this.pendingTasks.push(item);
+      } else {
+        this.pendingTasks.unshift(item);
+      }
       this.completedTasks.splice(this.completedTasks.indexOf(item), 1);
+      this.pendingTasks.sort((a, b) => (a.time > b.time ? 1 : -1));
     },
-    // taskDelete(item) {
-    //   if (this.completedTasks.includes(item)) {
-    //     this.completedTasks.splice(this.completedTasks.indexOf(item), 1);
-    //   } else if (this.pendingTasks.includes(item)) {
-    //     this.pendingTasks.splice(this.pendingTasks.indexOf(item), 1);
-    //   }
-    // },
   },
 
   components: {
@@ -98,92 +108,3 @@ export default {
   },
 };
 </script>
-<style>
-body {
-  height: 100vh;
-  background-image: linear-gradient(to bottom right, #322b51, #272931);
-  font-family: "Poppins", sans-serif;
-  text-align: center;
-  padding: 30px;
-}
-</style>
-
-<style scoped>
-.mainContainer {
-  color: white;
-  text-align: center;
-}
-label {
-  font-size: x-large;
-}
-.listContainer {
-  display: flex;
-  justify-content: space-around;
-}
-.newTaskContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-  height: 50px;
-}
-.inputTextField {
-  border-radius: 4px 0 0 4px;
-  padding: 0 10px;
-  background-color: #303545;
-  color: white;
-  font-size: larger;
-  margin: 10px 0;
-  min-width: 400px;
-  border: none;
-  height: 100%;
-}
-
-.add {
-  margin-left: 20px;
-  border-radius: 50%;
-  border: none;
-  color: white;
-  font-size: larger;
-  width: 50px;
-  cursor: pointer;
-  background-image: linear-gradient(to right, #792dd9, #ad32f9);
-  height: 100%;
-}
-.completedTaskButton {
-  border-radius: 4px;
-  border: none;
-  color: white;
-  font-size: larger;
-  width: 150px;
-  background-image: linear-gradient(to right bottom, #373942, #5b5a5e);
-  cursor: pointer;
-  height: 50px;
-  margin: 10px;
-  background-color: #25262a;
-}
-.pendingTaskButton {
-  border-radius: 4px;
-  border: none;
-  background-image: linear-gradient(to right, #792dd9, #ad32f9);
-  color: white;
-  font-size: larger;
-  width: 150px;
-  cursor: pointer;
-  height: 50px;
-  margin: 10px;
-  /* background-color: #25262a; */
-}
-
-.completedTaskButton:focus {
-  background-image: linear-gradient(to right, #792dd9, #ad32f9);
-}
-.pendingTaskButton:focus {
-  background-image: linear-gradient(to right, #792dd9, #ad32f9);
-}
-.buttonContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-</style>
